@@ -1,7 +1,7 @@
-const Sequelize = require('sequelize');
+// const Sequelize = require('sequelize');
 const db = require('../models');
 
-const { Op } = Sequelize;
+// const { Op } = Sequelize;
 
 export async function createTutorial(req, res) {
     try {
