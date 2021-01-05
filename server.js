@@ -15,6 +15,7 @@ app.use(bodyParser.json());
 
 app.use(bodyParser.urlencoded({ extended: true }));
 db.sequelize.sync({ force: false }).then(() => {
+    // eslint-disable-next-line no-console
     console.log('Drop and re-sync db.');
 });
 
