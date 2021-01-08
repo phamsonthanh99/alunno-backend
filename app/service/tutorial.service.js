@@ -1,3 +1,5 @@
+import { logger } from '../helpers/logger';
+
 const Sequelize = require('sequelize');
 const db = require('../models');
 
@@ -7,8 +9,7 @@ export async function createNewTutorial(tutorial) {
         const newTutorial = await db.tutorials.create(tutorial);
         return newTutorial;
     } catch (error) {
-        // eslint-disable-next-line no-console
-        console.log(error.message);
+        logger.error(`Error in createNewTutorial ${error.message}`);
         throw error;
     }
 }
@@ -35,7 +36,7 @@ export async function fetchTutorialList(filter) {
         const rawData = await db.tutorials.findAndCountAll(query);
         return rawData;
     } catch (error) {
-        console.log(error.message);
+        logger.error(`Error in fetchTutorialList ${error.message}`);
         throw error;
     }
 }
@@ -45,7 +46,7 @@ export async function getTutorialDetail(id) {
         const tutorial = await db.tutorials.findByPk(id);
         return tutorial;
     } catch (error) {
-        console.log(error.message);
+        logger.error(`Error in getTutorialDetail ${error.message}`);
         throw error;
     }
 }
@@ -58,7 +59,7 @@ export async function updateTutorial(id, tutorialDetail) {
             },
         });
     } catch (error) {
-        console.log(error.message);
+        logger.error(`Error in updateTutorial ${error.message}`);
         throw error;
     }
 }
@@ -71,7 +72,7 @@ export async function deleteTutorialById(id) {
             },
         });
     } catch (error) {
-        console.log(error.message);
+        logger.error(`Error in deleteTutorialById ${error.message}`);
         throw error;
     }
 }

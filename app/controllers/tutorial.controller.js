@@ -6,7 +6,7 @@ import {
     deleteTutorialById,
 } from '../service/tutorial.service';
 
-import { respondSuccess, respondWithError } from '../helpers/messageResponse';
+import { respondSuccess, respondWithError, logSystemError } from '../helpers/messageResponse';
 import { checkIfValueExist } from '../helpers/commonFunctions';
 import db from '../models';
 
@@ -27,7 +27,7 @@ export async function createTutorial(req, res) {
         const tutorial = await createNewTutorial(rawData);
         return res.json(respondSuccess(tutorial));
     } catch (error) {
-        return res.error;
+        return logSystemError(res, error, 'tutorialController - createTutorial');
     }
 }
 
@@ -42,7 +42,7 @@ export async function findAllTutorial(req, res) {
             }),
         );
     } catch (error) {
-        return res.error;
+        return logSystemError(res, error, 'tutorialController - findAllTutorial');
     }
 }
 
@@ -55,7 +55,7 @@ export async function findOneTutorial(req, res) {
         }
         return res.json(respondSuccess(tutorial));
     } catch (error) {
-        return res.error;
+        return logSystemError(res, error, 'tutorialController - findOneTutorial');
     }
 }
 
@@ -71,7 +71,7 @@ export async function update(req, res) {
         const tutorial = await getTutorialDetail(id);
         return res.json(respondSuccess(tutorial, 'Update success'));
     } catch (error) {
-        return res.error;
+        return logSystemError(res, error, 'tutorialController - update');
     }
 }
 
@@ -85,6 +85,6 @@ export async function deleteTutorial(req, res) {
         await deleteTutorialById(id);
         return res.json(respondSuccess(id));
     } catch (error) {
-        return res.error;
+        return logSystemError(res, error, 'tutorialController - deleteTutorial');
     }
 }
