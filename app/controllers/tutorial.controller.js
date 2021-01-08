@@ -1,5 +1,7 @@
+import {
+    createNewTutorial, fetchTutorialList, getTutorialDetail, updateTutorial, deleteTutorialById,
+} from '../service/tutorial.service';
 // const Sequelize = require('sequelize');
-const db = require('../models');
 
 // const { Op } = Sequelize;
 
@@ -9,7 +11,7 @@ export async function createTutorial(req, res) {
         if (!rawData.published) {
             rawData.published = false;
         }
-        const tutorial = await db.tutorials.create(rawData);
+        const tutorial = await createNewTutorial(rawData);
         return res.json(tutorial);
     } catch (error) {
         return res.error;
@@ -19,7 +21,7 @@ export async function createTutorial(req, res) {
 export async function findAllTutorial(req, res) {
     try {
         const rawData = req.query;
-        const tutorial = await db.tutorials.findAll({ where: rawData });
+        const tutorial = await fetchTutorialList(rawData);
         return res.json(tutorial);
     } catch (error) {
         return res.error;
@@ -29,23 +31,19 @@ export async function findAllTutorial(req, res) {
 export async function findOneTutorial(req, res) {
     try {
         const { id } = req.params;
-        const tutorial = await db.tutorials.findByPk(id);
+        const tutorial = await getTutorialDetail(id);
         return res.json(tutorial);
     } catch (error) {
         return res.error;
     }
 }
 
-export async function updateTutorial(req, res) {
+export async function update(req, res) {
     try {
         const { id } = req.params;
         const rawData = req.body;
-        await db.tutorials.update(rawData, {
-            where: {
-                id,
-            },
-        });
-        const tutorial = await db.tutorials.findByPk(id);
+        await updateTutorial(id, rawData);
+        const tutorial = await getTutorialDetail(id);
         return res.json(tutorial);
     } catch (error) {
         return res.error;
@@ -55,17 +53,8 @@ export async function updateTutorial(req, res) {
 export async function deleteTutorial(req, res) {
     try {
         const { id } = req.params;
-        const tutorial = await db.tutorials.destroy({
-            where: {
-                id,
-            },
-        });
-        if (tutorial === 1) {
-            return res.json('Tutorial was deleted successfully!');
-        }
-        return res.json(
-            `Cannot delete Tutorial with id = ${id}. Maybe Tutorial was not found!`,
-        );
+        await deleteTutorialById(id);
+        return res.json('success');
     } catch (error) {
         return res.error;
     }
