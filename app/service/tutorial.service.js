@@ -1,5 +1,7 @@
+const Sequelize = require('sequelize');
 const db = require('../models');
 
+const { Op } = Sequelize;
 export async function createNewTutorial(tutorial) {
     try {
         const newTutorial = await db.tutorials.create(tutorial);
@@ -11,9 +13,26 @@ export async function createNewTutorial(tutorial) {
     }
 }
 
-export async function fetchTutorialList(query) {
+export async function fetchTutorialList(filter) {
     try {
-        const rawData = await db.tutorials.findAll({ where: query });
+        const { keyword = '', page = 0, limit = 10 } = filter;
+        const offset = +limit * +page;
+        const query = {
+            offset,
+            limit: +limit,
+        };
+        const tutorialWhere = {
+            [Op.or]: {
+                title: {
+                    [Op.like]: `%${keyword}%`,
+                },
+                description: {
+                    [Op.like]: `%${keyword}%`,
+                },
+            },
+        };
+        query.where = tutorialWhere;
+        const rawData = await db.tutorials.findAndCountAll(query);
         return rawData;
     } catch (error) {
         console.log(error.message);
