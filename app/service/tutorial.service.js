@@ -6,7 +6,7 @@ const db = require('../models');
 const { Op } = Sequelize;
 export async function createNewTutorial(tutorial) {
     try {
-        const newTutorial = await db.tutorials.create(tutorial);
+        const newTutorial = await db.Tutorial.create(tutorial);
         return newTutorial;
     } catch (error) {
         logger.error(`Error in createNewTutorial ${error.message}`);
@@ -33,7 +33,7 @@ export async function fetchTutorialList(filter) {
             },
         };
         query.where = tutorialWhere;
-        const rawData = await db.tutorials.findAndCountAll(query);
+        const rawData = await db.Tutorial.findAndCountAll(query);
         return rawData;
     } catch (error) {
         logger.error(`Error in fetchTutorialList ${error.message}`);
@@ -43,7 +43,7 @@ export async function fetchTutorialList(filter) {
 
 export async function getTutorialDetail(id) {
     try {
-        const tutorial = await db.tutorials.findByPk(id);
+        const tutorial = await db.Tutorial.findByPk(id);
         return tutorial;
     } catch (error) {
         logger.error(`Error in getTutorialDetail ${error.message}`);
@@ -53,7 +53,7 @@ export async function getTutorialDetail(id) {
 
 export async function updateTutorial(id, tutorialDetail) {
     try {
-        await db.tutorials.update(tutorialDetail, {
+        await db.Tutorial.update(tutorialDetail, {
             where: {
                 id,
             },
@@ -66,7 +66,7 @@ export async function updateTutorial(id, tutorialDetail) {
 
 export async function deleteTutorialById(id) {
     try {
-        await db.tutorials.destroy({
+        await db.Tutorial.destroy({
             where: {
                 id,
             },
