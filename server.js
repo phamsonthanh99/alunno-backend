@@ -14,14 +14,11 @@ app.use(cors(corsOptions));
 app.use(bodyParser.json());
 
 app.use(bodyParser.urlencoded({ extended: true }));
-db.sequelize.sync({ force: false }).then(() => {
+db.sequelize.sync({ force: true }).then(() => {
     // eslint-disable-next-line no-console
     console.log('Drop and re-sync db.');
 });
 
-app.get('/', (req, res) => {
-    res.json({ message: 'Hello world ! sfasd' });
-});
 require('./app/routes/tutorial.routes')(app);
 
 const port = process.env.PORT || 3000;
