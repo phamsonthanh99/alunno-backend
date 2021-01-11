@@ -4,8 +4,10 @@ const Extension = require('@hapi/joi-date');
 const Joi = BaseJoi.extend(Extension);
 
 const validSchema = Joi.object().keys({
-    title: Joi.string().max(255).required(),
-    description: Joi.string().max(255).allow('').allow(null),
+    username: Joi.string().max(255).required(),
+    email: Joi.string().max(255).required(),
+    password: Joi.string().max(255).required(),
+    role: Joi.string().max(255).required(),
 });
 const validQuery = Joi.object().keys({
     limit: Joi.number().integer().min(1).allow(null),

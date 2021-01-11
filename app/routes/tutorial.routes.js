@@ -9,6 +9,7 @@ import {
 import {
     createValidator,
     updateValidator,
+    getListValidator,
 } from '../validate/tutorial.validator';
 
 const express = require('express');
@@ -18,7 +19,7 @@ module.exports = (app) => {
 
     router.post('/', createValidator, createTutorial);
 
-    router.get('/', findAllTutorial);
+    router.get('/', getListValidator, findAllTutorial);
 
     router.get('/:id', findOneTutorial);
 
