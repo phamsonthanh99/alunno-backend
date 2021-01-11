@@ -6,7 +6,11 @@ import {
     deleteTutorialById,
 } from '../service/tutorial.service';
 
-import { respondSuccess, respondWithError, logSystemError } from '../helpers/messageResponse';
+import {
+    respondSuccess,
+    respondWithError,
+    logSystemError,
+} from '../helpers/messageResponse';
 import { checkIfValueExist } from '../helpers/commonFunctions';
 import db from '../models';
 
@@ -24,7 +28,11 @@ export async function createTutorial(req, res) {
         const tutorial = await createNewTutorial(rawData);
         return res.json(respondSuccess(tutorial));
     } catch (error) {
-        return logSystemError(res, error, 'tutorialController - createTutorial');
+        return logSystemError(
+            res,
+            error,
+            'tutorialController - createTutorial',
+        );
     }
 }
 
@@ -39,7 +47,11 @@ export async function findAllTutorial(req, res) {
             }),
         );
     } catch (error) {
-        return logSystemError(res, error, 'tutorialController - findAllTutorial');
+        return logSystemError(
+            res,
+            error,
+            'tutorialController - findAllTutorial',
+        );
     }
 }
 
@@ -52,7 +64,11 @@ export async function findOneTutorial(req, res) {
         }
         return res.json(respondSuccess(tutorial));
     } catch (error) {
-        return logSystemError(res, error, 'tutorialController - findOneTutorial');
+        return logSystemError(
+            res,
+            error,
+            'tutorialController - findOneTutorial',
+        );
     }
 }
 
@@ -64,6 +80,15 @@ export async function update(req, res) {
             return res.json(respondWithError(407, 'Title does not exits'));
         }
         const rawData = req.body;
+        const isTitleExist = await checkIfValueExist(
+            db.Tutorial,
+            rawData.title,
+            'title',
+            { excludeField: 'id', excludeValues: [id] },
+        );
+        if (isTitleExist) {
+            return res.json(respondWithError(407, 'Title exist'));
+        }
         await updateTutorial(id, rawData);
         const tutorial = await getTutorialDetail(id);
         return res.json(respondSuccess(tutorial, 'Update success'));
@@ -82,6 +107,10 @@ export async function deleteTutorial(req, res) {
         await deleteTutorialById(id);
         return res.json(respondSuccess(id));
     } catch (error) {
-        return logSystemError(res, error, 'tutorialController - deleteTutorial');
+        return logSystemError(
+            res,
+            error,
+            'tutorialController - deleteTutorial',
+        );
     }
 }

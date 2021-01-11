@@ -1,6 +1,7 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import cors from 'cors';
+import routerManager from './app/routes';
 
 const db = require('./app/models');
 
@@ -14,12 +15,12 @@ app.use(cors(corsOptions));
 app.use(bodyParser.json());
 
 app.use(bodyParser.urlencoded({ extended: true }));
-db.sequelize.sync({ force: true }).then(() => {
+db.sequelize.sync({ force: false }).then(() => {
     // eslint-disable-next-line no-console
     console.log('Drop and re-sync db.');
 });
-
-require('./app/routes/tutorial.routes')(app);
+routerManager(app);
+// require('./app/routes/tutorial.routes')(app);
 
 const port = process.env.PORT || 3000;
 app.listen(port, () => {
