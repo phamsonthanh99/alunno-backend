@@ -1,5 +1,5 @@
-const tutorialApiRouter = require('./tutorial.routes');
-const userApiRouter = require('./user.routes');
+const tutorialApiRouter = require('../components/tutorial');
+const userApiRouter = require('../components/user');
 
 const routerManager = (app) => {
     tutorialApiRouter(app);

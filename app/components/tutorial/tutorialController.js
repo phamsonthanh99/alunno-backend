@@ -4,15 +4,15 @@ import {
     getTutorialDetail,
     updateTutorial,
     deleteTutorialById,
-} from '../service/tutorial.service';
+} from './tutorialService';
 
 import {
     respondSuccess,
     respondWithError,
     logSystemError,
-} from '../helpers/messageResponse';
-import { checkIfValueExist } from '../helpers/commonFunctions';
-import db from '../models';
+} from '../../helpers/messageResponse';
+import { checkIfValueExist } from '../../helpers/commonFunctions';
+import db from '../../models';
 
 export async function createTutorial(req, res) {
     try {

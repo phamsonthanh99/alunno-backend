@@ -1,7 +1,7 @@
-import { logger } from '../helpers/logger';
+import { logger } from '../../helpers/logger';
 
 const Sequelize = require('sequelize');
-const db = require('../models');
+const db = require('../../models');
 
 const { Op } = Sequelize;
 export async function createNewTutorial(tutorial) {

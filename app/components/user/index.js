@@ -4,12 +4,12 @@ import {
     getDetail,
     update,
     deleteUser,
-} from '../controllers/user.controller';
+} from './userController';
 import {
     createValidator,
     updateValidator,
     getListValidator,
-} from '../validate/user.validator';
+} from './userValidator';
 
 const express = require('express');
 

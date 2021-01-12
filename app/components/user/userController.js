@@ -4,14 +4,14 @@ import {
     getUserDetail,
     updateUser,
     deleteUserById,
-} from '../service/user.service';
+} from './userService';
 import {
     respondSuccess,
     respondWithError,
     logSystemError,
-} from '../helpers/messageResponse';
-import { checkIfValueExist } from '../helpers/commonFunctions';
-import db from '../models';
+} from '../../helpers/messageResponse';
+import { checkIfValueExist } from '../../helpers/commonFunctions';
+import db from '../../models';
 
 export async function getList(req, res) {
     try {

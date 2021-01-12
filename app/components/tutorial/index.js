@@ -4,13 +4,13 @@ import {
     findOneTutorial,
     update,
     deleteTutorial,
-} from '../controllers/tutorial.controller';
+} from './tutorialController';
 
 import {
     createValidator,
     updateValidator,
     getListValidator,
-} from '../validate/tutorial.validator';
+} from './tutorialValidator';
 
 const express = require('express');
 
