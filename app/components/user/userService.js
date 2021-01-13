@@ -1,11 +1,23 @@
 import { logger } from '../../helpers/logger';
 
+const bcrypt = require('bcryptjs');
 const Sequelize = require('sequelize');
 const db = require('../../models');
 
 const { Op } = Sequelize;
 
-const userAttributes = ['id', 'username', 'email', 'role'];
+const userAttributes = ['id', 'username', 'email'];
+const userInclude = [
+    {
+        model: db.Role,
+        as: 'roles',
+        attributes: ['id', 'name'],
+        required: false,
+        through: {
+            attributes: [],
+        },
+    },
+];
 export async function fetchUserList(filter) {
     try {
         const { keyword = '', page = 0, limit = 10 } = filter;
@@ -14,6 +26,7 @@ export async function fetchUserList(filter) {
             attributes: userAttributes,
             offset,
             limit: +limit,
+            include: userInclude,
         };
         const userWhere = {
             [Op.or]: {
@@ -21,9 +34,6 @@ export async function fetchUserList(filter) {
                     [Op.like]: `%${keyword}%`,
                 },
                 email: {
-                    [Op.like]: `%${keyword}%`,
-                },
-                role: {
                     [Op.like]: `%${keyword}%`,
                 },
             },
@@ -39,7 +49,11 @@ export async function fetchUserList(filter) {
 
 export async function createUser(user) {
     try {
-        const newUser = await db.User.create(user);
+        const newUser = await db.User.create({
+            username: user.username,
+            email: user.email,
+            password: bcrypt.hashSync(user.password, 8),
+        });
         return newUser;
     } catch (error) {
         logger.error(`Error in createUser ${error.message}`);

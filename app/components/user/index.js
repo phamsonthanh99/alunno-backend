@@ -10,6 +10,7 @@ import {
     updateValidator,
     getListValidator,
 } from './userValidator';
+import { verifyToken, isAdmin } from '../../middleware/authJwt';
 
 const express = require('express');
 
@@ -24,6 +25,6 @@ module.exports = (app) => {
 
     router.patch('/:id', updateValidator, update);
 
-    router.delete('/:id', deleteUser);
+    router.delete('/:id', verifyToken, isAdmin, deleteUser);
     app.use('/api/user', router);
 };

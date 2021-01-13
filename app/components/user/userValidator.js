@@ -7,7 +7,6 @@ const validSchema = Joi.object().keys({
     username: Joi.string().max(255).required(),
     email: Joi.string().max(255).required(),
     password: Joi.string().max(255).required(),
-    role: Joi.string().max(255).required(),
 });
 const validQuery = Joi.object().keys({
     limit: Joi.number().integer().min(1).allow(null),
