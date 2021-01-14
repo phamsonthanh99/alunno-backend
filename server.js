@@ -3,6 +3,7 @@ import bodyParser from 'body-parser';
 import cors from 'cors';
 import routerManager from './app/routes';
 
+const bcrypt = require('bcryptjs');
 const db = require('./app/models');
 
 const app = express();
@@ -24,6 +25,20 @@ function initial() {
     db.Role.create({
         id: 2,
         name: 'admin',
+    });
+    db.User.create({
+        fullName: 'Admin full name',
+        phone: '0967612173',
+        age: 20,
+        address: 'vinahud',
+        username: 'admin',
+        email: 'admin@admin.com',
+        password: bcrypt.hashSync('admin@1234', 8),
+    }).then((user) => {
+        db.Role.findByPk(2).then((role) => {
+            user.addRoles(role);
+            user.save();
+        });
     });
 }
 // production
