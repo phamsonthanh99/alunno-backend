@@ -1,5 +1,4 @@
 import { signin, signup } from './authController';
-import { verifyToken, isAdmin } from '../../middleware/authJwt';
 import {
     checkDuplicateUsernameOrEmail,
     checkRolesExisted,

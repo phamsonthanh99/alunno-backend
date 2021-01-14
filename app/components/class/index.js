@@ -11,21 +11,22 @@ import {
     getListValidator,
     updateValidator,
 } from './classValidator';
+import { verifyToken, isAdmin } from '../../middleware/authJwt';
 
 const express = require('express');
 
 module.exports = (app) => {
     const router = express.Router();
 
-    router.get('/', getListValidator, getList);
+    router.get('/', verifyToken, getListValidator, getList);
 
-    router.post('/', createValidator, createClass);
+    router.post('/', verifyToken, createValidator, createClass);
 
-    router.get('/:id', getDetail);
+    router.get('/:id', verifyToken, getDetail);
 
-    router.patch('/:id', updateValidator, update);
+    router.patch('/:id', verifyToken, updateValidator, update);
 
-    router.delete('/:id', deleteClass);
+    router.delete('/:id', verifyToken, deleteClass);
 
     app.use('/api/class', router);
 };

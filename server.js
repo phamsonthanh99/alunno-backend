@@ -26,11 +26,14 @@ function initial() {
         name: 'admin',
     });
 }
-db.sequelize.sync({ force: false }).then(() => {
-    // eslint-disable-next-line no-console
-    console.log('Drop and re-sync db.');
-    initial();
-});
+// production
+db.sequelize.sync();
+// development
+// db.sequelize.sync({ force: true }).then(() => {
+//     // eslint-disable-next-line no-console
+//     console.log('Drop and re-sync db.');
+//     initial();
+// });
 routerManager(app);
 // require('./app/routes/tutorial.routes')(app);
 
