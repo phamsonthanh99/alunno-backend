@@ -3,6 +3,7 @@ import {
     checkDuplicateUsernameOrEmail,
     checkRolesExisted,
 } from '../../middleware/verifySignUp';
+import { verifyToken, isAdmin } from '../../middleware/authJwt';
 
 const express = require('express');
 
@@ -16,7 +17,7 @@ module.exports = (app) => {
         next();
     });
 
-    router.post('/signup', checkDuplicateUsernameOrEmail, checkRolesExisted, signup);
+    router.post('/signup', verifyToken, isAdmin, checkDuplicateUsernameOrEmail, checkRolesExisted, signup);
 
     router.post('/signin', signin);
 
