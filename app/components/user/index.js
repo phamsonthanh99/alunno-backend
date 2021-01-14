@@ -25,7 +25,7 @@ module.exports = (app) => {
     });
     router.get('/', verifyToken, getListValidator, getList);
 
-    router.post('/', verifyToken, createValidator, create);
+    // router.post('/', verifyToken, createValidator, create);
 
     router.get('/:id', verifyToken, getDetail);
 

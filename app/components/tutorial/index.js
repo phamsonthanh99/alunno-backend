@@ -1,3 +1,4 @@
+import { dowload } from './excelController';
 import {
     createTutorial,
     findAllTutorial,
@@ -17,6 +18,8 @@ const express = require('express');
 module.exports = (app) => {
     const router = express.Router();
 
+    router.get('/dowload', dowload);
+
     router.post('/', createValidator, createTutorial);
 
     router.get('/', getListValidator, findAllTutorial);
@@ -26,5 +29,6 @@ module.exports = (app) => {
     router.patch('/:id', updateValidator, update);
 
     router.delete('/:id', deleteTutorial);
+
     app.use('/api/tutorial', router);
 };
