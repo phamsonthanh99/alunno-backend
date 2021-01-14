@@ -34,8 +34,8 @@ db.sequelize.sync();
 //     console.log('Drop and re-sync db.');
 //     initial();
 // });
+
 routerManager(app);
-// require('./app/routes/tutorial.routes')(app);
 
 const port = process.env.PORT || 3000;
 app.listen(port, () => {

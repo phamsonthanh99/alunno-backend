@@ -4,6 +4,15 @@ import { ROLES } from '../models';
 const db = require('../models');
 
 export async function checkDuplicateUsernameOrEmail(req, res, next) {
+    const fullName = await db.User.findOne({
+        where: {
+            fullName: req.body.fullName,
+        },
+    });
+    if (fullName) {
+        res.json(respondWithError(400, 'Failed, Full Name is already in use'));
+        return;
+    }
     const username = await db.User.findOne({
         where: {
             username: req.body.username,
@@ -15,7 +24,7 @@ export async function checkDuplicateUsernameOrEmail(req, res, next) {
     }
     const userEmail = await db.User.findOne({
         where: {
-            username: req.body.email,
+            email: req.body.email,
         },
     });
     if (userEmail) {

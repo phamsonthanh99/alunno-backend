@@ -40,6 +40,15 @@ export async function create(req, res) {
         if (isUsernameExist) {
             return res.json(respondWithError(407, 'Username exist'));
         }
+        const isFullNameExist = await checkIfValueExist(
+            db.User,
+            rawData.fullName,
+            'fullName',
+            {},
+        );
+        if (isFullNameExist) {
+            return res.json(respondWithError(407, 'Name exist'));
+        }
         const isEmailExist = await checkIfValueExist(
             db.User,
             rawData.email,
@@ -85,6 +94,15 @@ export async function update(req, res) {
         );
         if (isUsernameExist) {
             return res.json(respondWithError(407, 'Username exist'));
+        }
+        const isFullNameExist = await checkIfValueExist(
+            db.User,
+            rawData.fullName,
+            'fullName',
+            { excludeField: 'id', excludeValues: [id] },
+        );
+        if (isFullNameExist) {
+            return res.json(respondWithError(407, 'Name exist'));
         }
         const isEmailExist = await checkIfValueExist(
             db.User,

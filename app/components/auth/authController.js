@@ -17,6 +17,10 @@ const { Op } = Sequelize;
 export async function signup(req, res) {
     try {
         const user = await db.User.create({
+            fullName: req.body.fullName,
+            phone: req.body.phone,
+            age: req.body.age,
+            address: req.body.address,
             username: req.body.username,
             email: req.body.email,
             password: bcrypt.hashSync(req.body.password, 8),
