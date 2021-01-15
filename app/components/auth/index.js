@@ -4,6 +4,7 @@ import {
     checkRolesExisted,
 } from '../../middleware/verifySignUp';
 import { verifyToken, isAdmin } from '../../middleware/authJwt';
+import { createUserValidator, signinValidator } from './authValidator';
 
 const express = require('express');
 
@@ -17,9 +18,17 @@ module.exports = (app) => {
         next();
     });
 
-    router.post('/signup', verifyToken, isAdmin, checkDuplicateUsernameOrEmail, checkRolesExisted, signup);
+    router.post(
+        '/signup',
+        verifyToken,
+        isAdmin,
+        checkDuplicateUsernameOrEmail,
+        checkRolesExisted,
+        createUserValidator,
+        signup,
+    );
 
-    router.post('/signin', signin);
+    router.post('/signin', signinValidator, signin);
 
     app.use('/api/auth', router);
 };

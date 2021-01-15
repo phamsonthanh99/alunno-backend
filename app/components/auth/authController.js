@@ -4,8 +4,7 @@ import {
     respondWithError,
     logSystemError,
 } from '../../helpers/messageResponse';
-
-const Sequelize = require('sequelize');
+import { isValidPassword, findRole, createUser } from './authService';
 
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
@@ -13,28 +12,26 @@ const config = require('../../config/auth.config');
 
 const db = require('../../models');
 
-const { Op } = Sequelize;
 export async function signup(req, res) {
     try {
-        const user = await db.User.create({
-            fullName: req.body.fullName,
-            phone: req.body.phone,
-            age: req.body.age,
-            address: req.body.address,
-            username: req.body.username,
-            email: req.body.email,
-            password: bcrypt.hashSync(req.body.password, 8),
-        });
-        if (req.body.roles) {
-            const roles = await db.Role.findAll({
-                where: {
-                    name: {
-                        [Op.or]: req.body.roles,
-                    },
-                },
-            });
+        const rawData = req.body;
+        const user = await createUser(rawData);
+        // const user = await db.User.create({
+        //     fullName: req.body.fullName,
+        //     phone: req.body.phone,
+        //     age: req.body.age,
+        //     address: req.body.address,
+        //     username: req.body.username,
+        //     email: req.body.email,
+        //     password: bcrypt.hashSync(req.body.password, 8),
+        // });
+        const role = req.body.roles;
+        if (role) {
+            const roles = await findRole(role);
             await user.setRoles(roles);
-            return res.json(respondSuccess(200, 'User registered successfully!'));
+            return res.json(
+                respondSuccess(200, 'User registered successfully!'),
+            );
         }
         return res.json(respondSuccess());
     } catch (error) {
@@ -58,10 +55,7 @@ export async function signin(req, res) {
         if (!isUserExist) {
             return res.json(respondWithError(407, 'User not exist'));
         }
-        const passwordIsValid = bcrypt.compareSync(
-            userInfor.password,
-            user.password,
-        );
+        const passwordIsValid = isValidPassword(userInfor.password, user.password);
         if (!passwordIsValid) {
             return res.status(401).send({
                 accessToken: null,

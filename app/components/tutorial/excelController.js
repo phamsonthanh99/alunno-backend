@@ -1,6 +1,5 @@
 import {
     logSystemError,
-    respondWithError,
 } from '../../helpers/messageResponse';
 
 const excel = require('exceljs');
