@@ -4,7 +4,12 @@ import {
     respondWithError,
     logSystemError,
 } from '../../helpers/messageResponse';
-import { isValidPassword, findRole, createUser } from './authService';
+import {
+    isValidPassword,
+    findRole,
+    createUser,
+    hashPassword,
+} from './authService';
 
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
@@ -55,7 +60,10 @@ export async function signin(req, res) {
         if (!isUserExist) {
             return res.json(respondWithError(407, 'User not exist'));
         }
-        const passwordIsValid = isValidPassword(userInfor.password, user.password);
+        const passwordIsValid = isValidPassword(
+            userInfor.password,
+            user.password,
+        );
         if (!passwordIsValid) {
             return res.status(401).send({
                 accessToken: null,
@@ -79,5 +87,31 @@ export async function signin(req, res) {
         });
     } catch (error) {
         return logSystemError(res, error, 'authController - signin');
+    }
+}
+
+export async function changePassword(req, res) {
+    try {
+        const { id } = req.params;
+        const { oldPassword, newPassword } = req.body;
+        const currenUser = await db.User.findByPk(id);
+        if (!isValidPassword(oldPassword, currenUser.password)) {
+            return res.json(
+                respondWithError(405, 'Old password is not correct', {}),
+            );
+        }
+        await db.User.update(
+            {
+                password: hashPassword(newPassword),
+            },
+            {
+                where: {
+                    id,
+                },
+            },
+        );
+        return res.json(respondSuccess());
+    } catch (error) {
+        return logSystemError(res, error, 'authController - changePassword');
     }
 }

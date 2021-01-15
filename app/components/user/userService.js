@@ -11,7 +11,7 @@ const userInclude = [
     {
         model: db.Role,
         as: 'roles',
-        attributes: ['id', 'name'],
+        attributes: ['name'],
         required: false,
         through: {
             attributes: [],
@@ -65,6 +65,7 @@ export async function getUserDetail(id) {
     try {
         const user = await db.User.findByPk(id, {
             attributes: userAttributes,
+            include: userInclude,
         });
         return user;
     } catch (error) {

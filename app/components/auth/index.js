@@ -1,4 +1,4 @@
-import { signin, signup } from './authController';
+import { changePassword, signin, signup } from './authController';
 import {
     checkDuplicateUsernameOrEmail,
     checkRolesExisted,
@@ -30,5 +30,6 @@ module.exports = (app) => {
 
     router.post('/signin', signinValidator, signin);
 
+    router.post('/change-password/:id', verifyToken, changePassword);
     app.use('/api/auth', router);
 };

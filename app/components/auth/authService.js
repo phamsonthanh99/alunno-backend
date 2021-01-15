@@ -8,6 +8,11 @@ const { Op } = Sequelize;
 export function isValidPassword(userpass, password) {
     return bcrypt.compareSync(userpass, password);
 }
+
+export function hashPassword(password) {
+    return bcrypt.hashSync(password, 8);
+}
+
 export async function findRole(role) {
     try {
         const roles = await db.Role.findAll({
