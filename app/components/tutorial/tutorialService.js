@@ -33,7 +33,7 @@ export async function fetchTutorialList(filter) {
             },
         };
         query.where = tutorialWhere;
-        const rawData = await db.Tutorial.findAndCountAll(query);
+        const rawData = await db.Tutorial.findAll(query);
         return rawData;
     } catch (error) {
         logger.error(`Error in fetchTutorialList ${error.message}`);

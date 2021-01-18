@@ -30,6 +30,20 @@ export async function isAdmin(req, res, next) {
         }
     }
     res.json(respondWithError(403, 'Require Admin Role'));
-    // eslint-disable-next-line no-useless-return
-    return;
+}
+
+export async function isTeacherOrAdmin(req, res, next) {
+    const user = await db.User.findByPk(req.userId);
+    const roles = await user.getRoles();
+    for (let i = 0; i < roles.length; i += 1) {
+        if (roles[i].name === 'teacher') {
+            next();
+            return;
+        }
+        if (roles[i].name === 'admin') {
+            next();
+            return;
+        }
+        res.json(respondWithError(403, 'Require Admin Role or Teacher Role'));
+    }
 }

@@ -1,6 +1,7 @@
 import {
     logSystemError,
 } from '../../helpers/messageResponse';
+import { fetchTutorialList } from './tutorialService';
 
 const excel = require('exceljs');
 const moment = require('moment-timezone');
@@ -8,7 +9,8 @@ const db = require('../../models');
 
 export async function dowload(req, res) {
     try {
-        const objs = await db.Tutorial.findAll();
+        const rawData = req.query;
+        const objs = await fetchTutorialList(rawData);
         const tutorials = [];
         objs.forEach((obj) => {
             tutorials.push({

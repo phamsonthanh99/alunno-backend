@@ -41,10 +41,7 @@ export async function findAllTutorial(req, res) {
         const rawData = req.query;
         const tutorial = await fetchTutorialList(rawData);
         return res.json(
-            respondSuccess({
-                items: tutorial.rows,
-                totalItems: tutorial.count,
-            }),
+            respondSuccess(tutorial),
         );
     } catch (error) {
         return logSystemError(
