@@ -4,7 +4,7 @@ import {
     checkRolesExisted,
 } from '../../middleware/verifySignUp';
 import { verifyToken, isAdmin } from '../../middleware/authJwt';
-import { createUserValidator, signinValidator } from './authValidator';
+import { createUserValidator, signinValidator, changePasswordValidator } from './authValidator';
 
 const express = require('express');
 
@@ -30,6 +30,6 @@ module.exports = (app) => {
 
     router.post('/signin', signinValidator, signin);
 
-    router.post('/change-password/:id', verifyToken, changePassword);
+    router.post('/change-password/:id', verifyToken, changePasswordValidator, changePassword);
     app.use('/api/auth', router);
 };

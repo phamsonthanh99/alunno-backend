@@ -5,7 +5,6 @@ import { fetchTutorialList } from './tutorialService';
 
 const excel = require('exceljs');
 const moment = require('moment-timezone');
-const db = require('../../models');
 
 export async function dowload(req, res) {
     try {

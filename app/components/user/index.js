@@ -1,12 +1,10 @@
 import {
     getList,
-    create,
     getDetail,
     update,
     deleteUser,
 } from './userController';
 import {
-    createValidator,
     updateValidator,
     getListValidator,
 } from './userValidator';
@@ -29,7 +27,7 @@ module.exports = (app) => {
 
     router.get('/:id', verifyToken, getDetail);
 
-    router.patch('/:id', verifyToken, updateValidator, update);
+    router.patch('/:id', verifyToken, isAdmin, updateValidator, update);
 
     router.delete('/:id', verifyToken, isAdmin, deleteUser);
     app.use('/api/user', router);

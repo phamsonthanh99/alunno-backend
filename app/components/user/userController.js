@@ -1,6 +1,5 @@
 import {
     fetchUserList,
-    createUser,
     getUserDetail,
     updateUser,
     deleteUserById,
@@ -28,42 +27,42 @@ export async function getList(req, res) {
     }
 }
 
-export async function create(req, res) {
-    try {
-        const rawData = req.body;
-        const isUsernameExist = await checkIfValueExist(
-            db.User,
-            rawData.username,
-            'username',
-            {},
-        );
-        if (isUsernameExist) {
-            return res.json(respondWithError(407, 'Username exist'));
-        }
-        const isFullNameExist = await checkIfValueExist(
-            db.User,
-            rawData.fullName,
-            'fullName',
-            {},
-        );
-        if (isFullNameExist) {
-            return res.json(respondWithError(407, 'Name exist'));
-        }
-        const isEmailExist = await checkIfValueExist(
-            db.User,
-            rawData.email,
-            'email',
-            {},
-        );
-        if (isEmailExist) {
-            return res.json(respondWithError(407, 'Email exist'));
-        }
-        const user = await createUser(rawData);
-        return res.json(respondSuccess(user));
-    } catch (error) {
-        return logSystemError(res, error, 'userController - create');
-    }
-}
+// export async function create(req, res) {
+//     try {
+//         const rawData = req.body;
+//         const isUsernameExist = await checkIfValueExist(
+//             db.User,
+//             rawData.username,
+//             'username',
+//             {},
+//         );
+//         if (isUsernameExist) {
+//             return res.json(respondWithError(407, 'Username exist'));
+//         }
+//         const isFullNameExist = await checkIfValueExist(
+//             db.User,
+//             rawData.fullName,
+//             'fullName',
+//             {},
+//         );
+//         if (isFullNameExist) {
+//             return res.json(respondWithError(407, 'Name exist'));
+//         }
+//         const isEmailExist = await checkIfValueExist(
+//             db.User,
+//             rawData.email,
+//             'email',
+//             {},
+//         );
+//         if (isEmailExist) {
+//             return res.json(respondWithError(407, 'Email exist'));
+//         }
+//         const user = await createUser(rawData);
+//         return res.json(respondSuccess(user));
+//     } catch (error) {
+//         return logSystemError(res, error, 'userController - create');
+//     }
+// }
 
 export async function getDetail(req, res) {
     try {
@@ -86,15 +85,6 @@ export async function update(req, res) {
             return res.json(respondWithError(407, 'User does not exits'));
         }
         const rawData = req.body;
-        const isUsernameExist = await checkIfValueExist(
-            db.User,
-            rawData.username,
-            'username',
-            { excludeField: 'id', excludeValues: [id] },
-        );
-        if (isUsernameExist) {
-            return res.json(respondWithError(407, 'Username exist'));
-        }
         const isFullNameExist = await checkIfValueExist(
             db.User,
             rawData.fullName,
@@ -102,16 +92,7 @@ export async function update(req, res) {
             { excludeField: 'id', excludeValues: [id] },
         );
         if (isFullNameExist) {
-            return res.json(respondWithError(407, 'Name exist'));
-        }
-        const isEmailExist = await checkIfValueExist(
-            db.User,
-            rawData.email,
-            'email',
-            { excludeField: 'id', excludeValues: [id] },
-        );
-        if (isEmailExist) {
-            return res.json(respondWithError(407, 'Email exist'));
+            return res.json(respondWithError(407, 'Full Name exist'));
         }
         await updateUser(id, rawData);
         return res.json(respondSuccess(id));

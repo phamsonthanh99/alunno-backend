@@ -1,6 +1,6 @@
 import { logger } from '../../helpers/logger';
 
-const bcrypt = require('bcryptjs');
+// const bcrypt = require('bcryptjs');
 const Sequelize = require('sequelize');
 const db = require('../../models');
 
@@ -47,19 +47,19 @@ export async function fetchUserList(filter) {
     }
 }
 
-export async function createUser(user) {
-    try {
-        const newUser = await db.User.create({
-            username: user.username,
-            email: user.email,
-            password: bcrypt.hashSync(user.password, 8),
-        });
-        return newUser;
-    } catch (error) {
-        logger.error(`Error in createUser ${error.message}`);
-        throw error;
-    }
-}
+// export async function createUser(user) {
+//     try {
+//         const newUser = await db.User.create({
+//             username: user.username,
+//             email: user.email,
+//             password: bcrypt.hashSync(user.password, 8),
+//         });
+//         return newUser;
+//     } catch (error) {
+//         logger.error(`Error in createUser ${error.message}`);
+//         throw error;
+//     }
+// }
 
 export async function getUserDetail(id) {
     try {
