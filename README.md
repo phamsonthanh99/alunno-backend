@@ -10,3 +10,4 @@ It is using:
 #### Setup Run Local
 * Install nodeJs, npm and mysql locally
 * `npm run dev` Compiles and reloads for development
+editeed
