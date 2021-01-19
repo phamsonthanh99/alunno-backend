@@ -25,6 +25,7 @@ export async function createTutorial(req, res) {
         if (isTitleExist) {
             return res.json(respondWithError(407, 'Title exist'));
         }
+
         
         const tutorial = await createNewTutorial(rawData);
         return res.json(respondSuccess(tutorial));
