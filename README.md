@@ -9,4 +9,7 @@ It is using:
 
 #### Setup Run Local
 * Install nodeJs, npm and mysql locally
+* `git checkout -b crud-tutorial`
+* `git pull origin crud-tutorial`
+* `npm install --save-dev @babel/core @babel/node`
 * `npm run dev` Compiles and reloads for development
