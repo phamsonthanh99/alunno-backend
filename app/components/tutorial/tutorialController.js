@@ -26,7 +26,6 @@ export async function createTutorial(req, res) {
             return res.json(respondWithError(407, 'Title exist'));
         }
 
-        
         const tutorial = await createNewTutorial(rawData);
         return res.json(respondSuccess(tutorial));
     } catch (error) {
@@ -42,9 +41,7 @@ export async function findAllTutorial(req, res) {
     try {
         const rawData = req.query;
         const tutorial = await fetchTutorialList(rawData);
-        return res.json(
-            respondSuccess(tutorial),
-        );
+        return res.json(respondSuccess(tutorial));
     } catch (error) {
         return logSystemError(
             res,
@@ -103,6 +100,7 @@ export async function deleteTutorial(req, res) {
         if (!isIdExist) {
             return res.json(respondWithError(407, 'Title does not exits'));
         }
+        await deleteTutorialById(id);
         await deleteTutorialById(id);
         return res.json(respondSuccess(id));
     } catch (error) {
