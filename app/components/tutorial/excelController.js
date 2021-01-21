@@ -21,9 +21,9 @@ export async function dowload(req, res) {
         const workbook = new excel.Workbook();
         const worksheet = workbook.addWorksheet('Tutorials');
         worksheet.columns = [
-            { header: 'Id', key: 'id', width: 5 },
-            { header: 'Title', key: 'title', width: 25 },
-            { header: 'Description', key: 'description', width: 25 },
+            { header: 'Id', key: 'id' },
+            { header: 'Title', key: 'title' },
+            { header: 'Description', key: 'description' },
         ];
         // Add array rows
         worksheet.addRows(tutorials);

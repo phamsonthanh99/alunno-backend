@@ -24,6 +24,7 @@ db.User = require('./user.model')(sequelize, Sequelize);
 db.Role = require('./role.model')(sequelize, Sequelize);
 db.Class = require('./class.model')(sequelize, Sequelize);
 db.Subject = require('./subject.model')(sequelize, Sequelize);
+db.Student = require('./student.model')(sequelize, Sequelize);
 
 db.Role.belongsToMany(db.User, {
     through: 'user_roles',
@@ -37,4 +38,12 @@ db.User.belongsToMany(db.Role, {
     otherKey: 'roleId',
 });
 db.ROLES = ['user', 'admin'];
+
+db.Student.belongsTo(db.Class, {
+    foreignKey: 'classId',
+    as: 'class',
+});
+db.Class.hasMany(db.Student, {
+    as: 'student',
+});
 module.exports = db;
