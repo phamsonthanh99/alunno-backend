@@ -32,11 +32,11 @@ export async function isAdmin(req, res, next) {
     res.json(respondWithError(403, 'Require Admin Role'));
 }
 
-export async function isTeacherOrAdmin(req, res, next) {
+export async function isSchoolManagerOrAdmin(req, res, next) {
     const user = await db.User.findByPk(req.userId);
     const roles = await user.getRoles();
     for (let i = 0; i < roles.length; i += 1) {
-        if (roles[i].name === 'teacher') {
+        if (roles[i].name === 'school_manager') {
             next();
             return;
         }
@@ -44,6 +44,6 @@ export async function isTeacherOrAdmin(req, res, next) {
             next();
             return;
         }
-        res.json(respondWithError(403, 'Require Admin Role or Teacher Role'));
+        res.json(respondWithError(403, 'Require Admin Role or SM Role'));
     }
 }

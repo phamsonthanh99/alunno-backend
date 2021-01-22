@@ -37,7 +37,7 @@ db.User.belongsToMany(db.Role, {
     foreignKey: 'userId',
     otherKey: 'roleId',
 });
-db.ROLES = ['user', 'admin'];
+db.ROLES = ['teacher', 'admin', 'school_manager'];
 
 db.Student.belongsTo(db.Class, {
     as: 'class',

@@ -11,7 +11,7 @@ import {
     createValidator,
     updateValidator,
 } from './subjectValidator';
-import { verifyToken, isAdmin } from '../../middleware/authJwt';
+import { verifyToken, isSchoolManagerOrAdmin } from '../../middleware/authJwt';
 
 const express = require('express');
 
@@ -20,13 +20,13 @@ module.exports = (app) => {
 
     router.get('/', verifyToken, getListValidator, getList);
 
-    router.post('/', verifyToken, createValidator, createSubject);
+    router.post('/', verifyToken, isSchoolManagerOrAdmin, createValidator, createSubject);
 
     router.get('/:id', verifyToken, getDetail);
 
-    router.patch('/:id', verifyToken, updateValidator, update);
+    router.patch('/:id', verifyToken, isSchoolManagerOrAdmin, updateValidator, update);
 
-    router.delete('/:id', verifyToken, deleteSubject);
+    router.delete('/:id', verifyToken, isSchoolManagerOrAdmin, deleteSubject);
 
     app.use('/api/subject', router);
 };

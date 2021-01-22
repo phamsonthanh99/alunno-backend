@@ -2,7 +2,7 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import cors from 'cors';
 import routerManager from './app/routes';
-import { initial } from './app/seeders/admin';
+import { initial } from './app/seeders/seeder';
 
 const db = require('./app/models');
 

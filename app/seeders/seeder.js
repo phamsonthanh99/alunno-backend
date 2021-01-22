@@ -4,11 +4,15 @@ const db = require('../models');
 export function initial() {
     db.Role.create({
         id: 1,
-        name: 'user',
+        name: 'teacher',
     });
     db.Role.create({
         id: 2,
         name: 'admin',
+    });
+    db.Role.create({
+        id: 3,
+        name: 'school_manager',
     });
     db.User.create({
         fullName: 'Admin full name',
