@@ -88,6 +88,14 @@ export async function deleteClass(req, res) {
         if (!isIdExist) {
             return res.json(respondWithError(407, 'Class not exist'));
         }
+        const isClassHaveStudent = await checkIfValueExist(
+            db.Student,
+            id,
+            'classId',
+        );
+        if (isClassHaveStudent) {
+            return res.json(respondWithError(407, 'Class have students'));
+        }
         await deleteClassById(id);
         return res.json(respondSuccess(id));
     } catch (error) {
