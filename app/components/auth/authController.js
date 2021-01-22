@@ -58,7 +58,7 @@ export async function signin(req, res) {
             'username',
         );
         if (!isUserExist) {
-            return res.json(respondWithError(407, 'User not exist'));
+            return res.json(respondWithError(407, 'username invalid !'));
         }
         const passwordIsValid = isValidPassword(
             userInfor.password,

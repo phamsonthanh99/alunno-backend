@@ -18,13 +18,13 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // production
-db.sequelize.sync();
+// db.sequelize.sync();
 // development
-// db.sequelize.sync({ force: true }).then(() => {
-//     // eslint-disable-next-line no-console
-//     console.log('Drop and re-sync db.');
-//     initial();
-// });
+db.sequelize.sync({ force: true }).then(() => {
+    // eslint-disable-next-line no-console
+    console.log('Drop and re-sync db.');
+    initial();
+});
 
 routerManager(app);
 
