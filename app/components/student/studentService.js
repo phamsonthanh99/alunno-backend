@@ -5,12 +5,31 @@ const db = require('../../models');
 
 const { Op } = Sequelize;
 
+const studentAttributes = [
+    'id',
+    'studentId',
+    'fullName',
+    'phone',
+    'age',
+    'address',
+    'email',
+    'gender',
+];
+const studentInclude = [
+    {
+        model: db.Class,
+        as: 'class',
+        attributes: ['id', 'name'],
+    },
+];
 export async function fetchStudentList(filter) {
     try {
         const { keyword = '', page = 0, limit = 10 } = filter;
         const offset = +limit * +page;
         const query = {
+            attributes: studentAttributes,
             offset,
+            include: studentInclude,
             limit: +limit,
         };
         const studentWhere = {

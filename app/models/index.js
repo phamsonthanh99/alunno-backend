@@ -40,10 +40,13 @@ db.User.belongsToMany(db.Role, {
 db.ROLES = ['user', 'admin'];
 
 db.Student.belongsTo(db.Class, {
-    foreignKey: 'classId',
     as: 'class',
+    foreignKey: 'classId',
+    targetKey: 'id',
 });
 db.Class.hasMany(db.Student, {
     as: 'student',
+    foreignKey: 'classId',
+    sourceKey: 'id',
 });
 module.exports = db;

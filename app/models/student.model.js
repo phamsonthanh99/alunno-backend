@@ -22,6 +22,9 @@ module.exports = (sequelize, Sequelize) => {
             type: Sequelize.ENUM('male', 'female', 'other'),
             defaultValue: 'other',
         },
+        classId: {
+            type: Sequelize.INTEGER,
+        },
     });
 
     return Student;
