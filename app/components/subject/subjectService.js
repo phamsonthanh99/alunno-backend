@@ -18,6 +18,9 @@ export async function fetchSubjectList(filter) {
                 name: {
                     [Op.like]: `%${keyword}%`,
                 },
+                status: {
+                    [Op.like]: `%${keyword}%`,
+                },
                 description: {
                     [Op.like]: `%${keyword}%`,
                 },

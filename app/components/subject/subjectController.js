@@ -11,6 +11,7 @@ import {
     respondWithError,
     logSystemError,
 } from '../../helpers/messageResponse';
+import { SubjectStatus } from './subjectConstance';
 import { checkIfValueExist } from '../../helpers/commonFunctions';
 import db from '../../models';
 
@@ -87,6 +88,12 @@ export async function deleteSubject(req, res) {
         const isIdExist = await checkIfValueExist(db.Subject, id);
         if (!isIdExist) {
             return res.json(respondWithError(407, 'Subject not exist'));
+        }
+        const subject = await db.Subject.findByPk(id);
+        if (subject.status === SubjectStatus.ACTIVE) {
+            return res.json(
+                respondWithError(406, 'do not delete subject when active'),
+            );
         }
         await deleteSubjectById(id);
         return res.json(respondSuccess(id));
