@@ -23,7 +23,7 @@ export async function getList(req, res) {
             respondSuccess({ items: subject.rows, totalItems: subject.count }),
         );
     } catch (error) {
-        return logSystemError(res, error, 'classController - getList');
+        return logSystemError(res, error, 'subjectController - getList');
     }
 }
 
@@ -41,7 +41,7 @@ export async function createSubject(req, res) {
         const subject = await createNewSubject(rawData);
         return res.json(respondSuccess(subject));
     } catch (error) {
-        return logSystemError(res, error, 'classController - createSubject');
+        return logSystemError(res, error, 'subjectController - createSubject');
     }
 }
 
@@ -54,7 +54,7 @@ export async function getDetail(req, res) {
         }
         return res.json(respondSuccess(subject));
     } catch (error) {
-        return logSystemError(res, error, 'classController - getDetail');
+        return logSystemError(res, error, 'subjectController - getDetail');
     }
 }
 
@@ -78,7 +78,7 @@ export async function update(req, res) {
         await updateSubject(id, rawData);
         return res.json(respondSuccess(id));
     } catch (error) {
-        return logSystemError(res, error, 'classController - update');
+        return logSystemError(res, error, 'subjectController - update');
     }
 }
 
@@ -98,6 +98,6 @@ export async function deleteSubject(req, res) {
         await deleteSubjectById(id);
         return res.json(respondSuccess(id));
     } catch (error) {
-        return logSystemError(res, error, 'classController - deleteSubject');
+        return logSystemError(res, error, 'subjectController - deleteSubject');
     }
 }

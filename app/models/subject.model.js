@@ -7,6 +7,9 @@ module.exports = (sequelize, Sequelize) => {
             type: Sequelize.ENUM('inactive', 'active', 'done'),
             defaultValue: 'inactive',
         },
+        userId: {
+            type: Sequelize.INTEGER,
+        },
         description: {
             type: Sequelize.STRING,
         },

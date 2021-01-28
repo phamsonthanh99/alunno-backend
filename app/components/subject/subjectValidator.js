@@ -6,6 +6,7 @@ const Joi = BaseJoi.extend(Extension);
 const validSchema = Joi.object().keys({
     name: Joi.string().max(255).required(),
     status: Joi.string().valid('inactive', 'active', 'done'),
+    userId: Joi.number().integer().required(),
     description: Joi.string().max(255).allow('').allow(null),
 });
 const validQuery = Joi.object().keys({

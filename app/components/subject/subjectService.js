@@ -5,13 +5,32 @@ const db = require('../../models');
 
 const { Op } = Sequelize;
 
+const subjectAttributes = ['id', 'name', 'status', 'description'];
+const subjectInclude = [
+    {
+        model: db.User,
+        as: 'teacher',
+        attributes: ['id', 'fullName'],
+        include: {
+            model: db.Role,
+            as: 'roles',
+            attributes: ['name'],
+            required: false,
+            through: {
+                attributes: [],
+            },
+        },
+    },
+];
 export async function fetchSubjectList(filter) {
     try {
         const { keyword = '', page = 0, limit = 10 } = filter;
         const offset = +limit * +page;
         const query = {
+            attributes: subjectAttributes,
             offset,
             limit: +limit,
+            include: subjectInclude,
         };
         const subjectWhere = {
             [Op.or]: {

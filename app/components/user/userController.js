@@ -108,6 +108,14 @@ export async function deleteUser(req, res) {
         if (!isIdExist) {
             return res.json(respondWithError(407, 'User does not exist'));
         }
+        const isUserHaveSubject = await checkIfValueExist(
+            db.Subject,
+            id,
+            'userId',
+        );
+        if (isUserHaveSubject) {
+            return res.json(respondWithError(407, 'User have subject'));
+        }
         await deleteUserById(id);
         return res.json(respondSuccess(id));
     } catch (error) {

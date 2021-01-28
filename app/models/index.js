@@ -26,6 +26,7 @@ db.Class = require('./class.model')(sequelize, Sequelize);
 db.Subject = require('./subject.model')(sequelize, Sequelize);
 db.Student = require('./student.model')(sequelize, Sequelize);
 
+// Role and User (Many-To-Many)
 db.Role.belongsToMany(db.User, {
     through: 'user_roles',
     foreignKey: 'roleId',
@@ -39,6 +40,7 @@ db.User.belongsToMany(db.Role, {
 });
 db.ROLES = ['teacher', 'admin', 'school_manager'];
 
+// Student and Class (One-To-Many)
 db.Student.belongsTo(db.Class, {
     as: 'class',
     foreignKey: 'classId',
@@ -47,6 +49,18 @@ db.Student.belongsTo(db.Class, {
 db.Class.hasMany(db.Student, {
     as: 'student',
     foreignKey: 'classId',
+    sourceKey: 'id',
+});
+
+// Subject and User (One-To-Many)
+db.Subject.belongsTo(db.User, {
+    as: 'teacher',
+    foreignKey: 'userId',
+    targetKey: 'id',
+});
+db.User.hasMany(db.Subject, {
+    as: 'subject',
+    foreignKey: 'userId',
     sourceKey: 'id',
 });
 module.exports = db;
