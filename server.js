@@ -25,6 +25,7 @@ db.sequelize.sync();
 //     console.log('Drop and re-sync db.');
 //     initial();
 // });
+// test push
 
 routerManager(app);
 
