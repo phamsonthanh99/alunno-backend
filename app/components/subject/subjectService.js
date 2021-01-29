@@ -66,7 +66,10 @@ export async function createNewSubject(subject) {
 
 export async function getDetailSubject(id) {
     try {
-        const subjectDetail = await db.Subject.findByPk(id);
+        const subjectDetail = await db.Subject.findByPk(id, {
+            attributes: subjectAttributes,
+            include: subjectInclude,
+        });
         return subjectDetail;
     } catch (error) {
         logger.error(`Error in getDetailSubject ${error.message}`);

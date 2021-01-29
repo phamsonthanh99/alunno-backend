@@ -72,7 +72,10 @@ export async function createNewStudent(student) {
 
 export async function getStudentDetail(id) {
     try {
-        const studentDetail = await db.Student.findByPk(id);
+        const studentDetail = await db.Student.findByPk(id, {
+            attributes: studentAttributes,
+            include: studentInclude,
+        });
         return studentDetail;
     } catch (error) {
         logger.error(`Error in getStudentDetail ${error.message}`);
