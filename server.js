@@ -19,7 +19,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 db.sequelize.sync();
 
 routerManager(app);
-
+//
 const port = process.env.PORT || 3000;
 app.listen(port, () => {
     // eslint-disable-next-line no-console
