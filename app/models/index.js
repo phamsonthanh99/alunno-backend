@@ -26,6 +26,7 @@ db.Role = require('./role.model')(sequelize, Sequelize);
 db.Class = require('./class.model')(sequelize, Sequelize);
 db.Subject = require('./subject.model')(sequelize, Sequelize);
 db.Student = require('./student.model')(sequelize, Sequelize);
+db.ExamScore = require('./examScore.model')(sequelize, Sequelize);
 
 // Role and User (Many-To-Many)
 db.Role.belongsToMany(db.User, {
