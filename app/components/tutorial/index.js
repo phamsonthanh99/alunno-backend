@@ -5,6 +5,7 @@ import {
     findOneTutorial,
     update,
     deleteTutorial,
+    sendEmail,
 } from './tutorialController';
 
 import {
@@ -29,6 +30,8 @@ module.exports = (app) => {
     router.patch('/:id', updateValidator, update);
 
     router.delete('/:id', deleteTutorial);
+
+    router.post('/send-email', sendEmail);
 
     app.use('/api/tutorial', router);
 };

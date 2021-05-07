@@ -1,6 +1,7 @@
 import { logger } from '../../helpers/logger';
 
 const Sequelize = require('sequelize');
+const nodeMailer = require('nodemailer');
 const db = require('../../models');
 
 const { Op } = Sequelize;
@@ -75,4 +76,31 @@ export async function deleteTutorialById(id) {
         logger.error(`Error in deleteTutorialById ${error.message}`);
         throw error;
     }
+}
+
+export async function sendEmailService(to, subject, body) {
+    const adminEmail = 'thanhps1611@gmail.com';
+    const adminPassword = 'athanh123';
+
+    const mailHost = 'smtp.gmail.com';
+    const mailPost = 587;
+
+    const transporter = nodeMailer.createTransport({
+        host: mailHost,
+        port: mailPost,
+        secure: false,
+        auth: {
+            user: adminEmail,
+            pass: adminPassword,
+        },
+    });
+
+    const options = {
+        from: adminEmail,
+        to,
+        subject,
+        html: body,
+    };
+
+    return transporter.sendMail(options);
 }

@@ -10,6 +10,7 @@ export async function seederStudent() {
         email: 'tempname1@gmail.com',
         gender: 'other',
         classId: 1,
+        subjectId: 1,
     });
     db.Student.create({
         studentId: '17020001',
@@ -20,6 +21,7 @@ export async function seederStudent() {
         email: 'tempname2@gmail.com',
         gender: 'other',
         classId: 2,
+        subjectId: 2,
     });
     db.Student.create({
         studentId: '17020002',
@@ -30,5 +32,6 @@ export async function seederStudent() {
         email: 'tempname3@gmail.com',
         gender: 'other',
         classId: 3,
+        subjectId: 3,
     });
 }

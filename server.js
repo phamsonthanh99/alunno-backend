@@ -1,14 +1,17 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import cors from 'cors';
+import logger from 'morgan';
 import routerManager from './app/routes';
 
 const db = require('./app/models');
 
 const app = express();
 
+app.use(logger('dev'));
+
 const corsOptions = {
-    origin: 'http://localhost:8081',
+    origin: '*',
 };
 app.use(cors(corsOptions));
 
