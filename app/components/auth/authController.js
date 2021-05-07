@@ -76,7 +76,7 @@ export async function signin(req, res) {
         const authorities = [];
         const roles = await user.getRoles();
         for (let i = 0; i < roles.length; i += 1) {
-            authorities.push(`ROLE_${roles[i].name.toUpperCase()}`);
+            authorities.push(`${roles[i].name.toLowerCase()}`);
         }
         return res.status(200).send({
             id: user.id,
@@ -93,24 +93,27 @@ export async function signin(req, res) {
 export async function changePassword(req, res) {
     try {
         const { id } = req.params;
-        const { oldPassword, newPassword } = req.body;
-        const currenUser = await db.User.findByPk(id);
-        if (!isValidPassword(oldPassword, currenUser.password)) {
-            return res.json(
-                respondWithError(405, 'Old password is not correct', {}),
-            );
-        }
-        await db.User.update(
-            {
-                password: hashPassword(newPassword),
-            },
-            {
-                where: {
-                    id,
+        if (req.userId === +id) { // parse id -> number
+            const { oldPassword, newPassword } = req.body;
+            const currenUser = await db.User.findByPk(id);
+            if (!isValidPassword(oldPassword, currenUser.password)) {
+                return res.json(
+                    respondWithError(405, 'Old password is not correct', {}),
+                );
+            }
+            await db.User.update(
+                {
+                    password: hashPassword(newPassword),
                 },
-            },
-        );
-        return res.json(respondSuccess());
+                {
+                    where: {
+                        id,
+                    },
+                },
+            );
+            return res.json(respondSuccess());
+        }
+        return res.json(respondWithError(405, 'User invalid', {}));
     } catch (error) {
         return logSystemError(res, error, 'authController - changePassword');
     }

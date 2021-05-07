@@ -18,6 +18,7 @@ export async function getList(req, res) {
     try {
         const rawData = req.query;
         const classes = await fetchClassList(rawData);
+        console.log('req.userId', req.userId);
         return res.json(
             respondSuccess({ items: classes.rows, totalItems: classes.count }),
         );

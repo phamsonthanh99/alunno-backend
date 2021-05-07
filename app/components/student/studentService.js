@@ -21,6 +21,11 @@ const studentInclude = [
         as: 'class',
         attributes: ['id', 'name'],
     },
+    {
+        model: db.Subject,
+        as: 'subject',
+        attributes: ['id', 'name'],
+    },
 ];
 export async function fetchStudentList(filter) {
     try {

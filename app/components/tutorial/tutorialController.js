@@ -4,6 +4,7 @@ import {
     getTutorialDetail,
     updateTutorial,
     deleteTutorialById,
+    sendEmailService,
 } from './tutorialService';
 
 import {
@@ -108,6 +109,20 @@ export async function deleteTutorial(req, res) {
             res,
             error,
             'tutorialController - deleteTutorial',
+        );
+    }
+}
+
+export async function sendEmail(req, res) {
+    try {
+        const { to, subject, body } = req.body;
+        await sendEmailService(to, subject, body);
+        return res.json(respondSuccess('success'));
+    } catch (error) {
+        return logSystemError(
+            res,
+            error,
+            'tutorialController - sendEmail',
         );
     }
 }

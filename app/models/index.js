@@ -12,6 +12,7 @@ const sequelize = new Sequelize(dbConfig.DB, dbConfig.USER, dbConfig.PASSWORD, {
         acquire: dbConfig.pool.acquire,
         idle: dbConfig.pool.idle,
     },
+    logging: false,
 });
 
 const db = {};
@@ -40,7 +41,7 @@ db.User.belongsToMany(db.Role, {
 });
 db.ROLES = ['teacher', 'admin', 'school_manager'];
 
-// Student and Class (One-To-Many)
+// Class and Student (One-To-Many)
 db.Student.belongsTo(db.Class, {
     as: 'class',
     foreignKey: 'classId',
@@ -52,7 +53,19 @@ db.Class.hasMany(db.Student, {
     sourceKey: 'id',
 });
 
-// Subject and User (One-To-Many)
+// Subject and Student (One-to-Many)
+db.Student.belongsTo(db.Subject, {
+    as: 'subject',
+    foreignKey: 'subjectId',
+    targetKey: 'id',
+});
+db.Subject.hasMany(db.Student, {
+    as: 'student',
+    foreignKey: 'subjectId',
+    sourceKey: 'id',
+});
+
+// User and Subject (One-To-Many)
 db.Subject.belongsTo(db.User, {
     as: 'teacher',
     foreignKey: 'userId',

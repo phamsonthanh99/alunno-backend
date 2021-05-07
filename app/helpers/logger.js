@@ -5,7 +5,7 @@ const DailyRotateFile = require('winston-daily-rotate-file');
 
 export function customLogger(customFile = 'job') {
     return winston.createLogger({
-        level: 'info',
+        // level: 'info',
         format: winston.format.json(),
         defaultMeta: { service: 'user-service' },
         transports: [

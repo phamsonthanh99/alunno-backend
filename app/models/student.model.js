@@ -25,6 +25,9 @@ module.exports = (sequelize, Sequelize) => {
         classId: {
             type: Sequelize.INTEGER,
         },
+        subjectId: {
+            type: Sequelize.INTEGER,
+        },
     });
 
     return Student;
