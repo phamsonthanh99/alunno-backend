@@ -54,17 +54,17 @@ db.Class.hasMany(db.Student, {
     sourceKey: 'id',
 });
 
-// Subject and Student (One-to-Many)
-db.Student.belongsTo(db.Subject, {
-    as: 'subject',
-    foreignKey: 'subjectId',
-    targetKey: 'id',
-});
-db.Subject.hasMany(db.Student, {
-    as: 'student',
-    foreignKey: 'subjectId',
-    sourceKey: 'id',
-});
+// // Subject and Student (One-to-Many)
+// db.Student.belongsTo(db.Subject, {
+//     as: 'subject',
+//     foreignKey: 'subjectId',
+//     targetKey: 'id',
+// });
+// db.Subject.hasMany(db.Student, {
+//     as: 'student',
+//     foreignKey: 'subjectId',
+//     sourceKey: 'id',
+// });
 
 // User and Subject (One-To-Many)
 db.Subject.belongsTo(db.User, {

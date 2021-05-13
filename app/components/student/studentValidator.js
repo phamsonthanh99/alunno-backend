@@ -28,7 +28,7 @@ const validSchema = Joi.object().keys({
     email: Joi.string().max(255).allow(null).allow(''),
     gender: Joi.string().valid('male', 'female', 'other').required(),
     classId: Joi.number().integer().required(),
-    subjectId: Joi.number().integer().optional(),
+    // subjectId: Joi.number().integer().optional(),
 });
 
 export async function createValidator(req, res, next) {
