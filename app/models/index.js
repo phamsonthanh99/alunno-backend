@@ -54,18 +54,6 @@ db.Class.hasMany(db.Student, {
     sourceKey: 'id',
 });
 
-// // Subject and Student (One-to-Many)
-// db.Student.belongsTo(db.Subject, {
-//     as: 'subject',
-//     foreignKey: 'subjectId',
-//     targetKey: 'id',
-// });
-// db.Subject.hasMany(db.Student, {
-//     as: 'student',
-//     foreignKey: 'subjectId',
-//     sourceKey: 'id',
-// });
-
 // User and Subject (One-To-Many)
 db.Subject.belongsTo(db.User, {
     as: 'teacher',
@@ -76,5 +64,27 @@ db.User.hasMany(db.Subject, {
     as: 'subject',
     foreignKey: 'userId',
     sourceKey: 'id',
+});
+
+// associate student & subject
+db.Student.hasMany(db.ExamScore, {
+    as: 'scoreSubject',
+    foreignKey: 'studentId',
+    sourceKey: 'id',
+});
+db.ExamScore.belongsTo(db.Student, {
+    as: 'student',
+    foreignKey: 'studentId',
+    targetKey: 'id',
+});
+db.Subject.hasMany(db.ExamScore, {
+    as: 'scoreStudent',
+    foreignKey: 'subjectId',
+    sourceKey: 'id',
+});
+db.ExamScore.belongsTo(db.Subject, {
+    as: 'subject',
+    foreignKey: 'subjectId',
+    targetKey: 'id',
 });
 module.exports = db;

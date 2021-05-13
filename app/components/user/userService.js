@@ -6,7 +6,15 @@ const db = require('../../models');
 
 const { Op } = Sequelize;
 
-const userAttributes = ['id', 'fullName', 'phone', 'age', 'address', 'username', 'email'];
+const userAttributes = [
+    'id',
+    'fullName',
+    'phone',
+    'age',
+    'address',
+    'username',
+    'email',
+];
 const userInclude = [
     {
         model: db.Role,
@@ -16,6 +24,10 @@ const userInclude = [
         through: {
             attributes: [],
         },
+    },
+    {
+        model: db.Subject,
+        as: 'subject',
     },
 ];
 export async function fetchUserList(filter) {
