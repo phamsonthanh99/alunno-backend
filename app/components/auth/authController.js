@@ -12,7 +12,6 @@ import {
 } from './authService';
 
 const jwt = require('jsonwebtoken');
-const bcrypt = require('bcryptjs');
 const config = require('../../config/auth.config');
 
 const db = require('../../models');
@@ -21,15 +20,7 @@ export async function signup(req, res) {
     try {
         const rawData = req.body;
         const user = await createUser(rawData);
-        // const user = await db.User.create({
-        //     fullName: req.body.fullName,
-        //     phone: req.body.phone,
-        //     age: req.body.age,
-        //     address: req.body.address,
-        //     username: req.body.username,
-        //     email: req.body.email,
-        //     password: bcrypt.hashSync(req.body.password, 8),
-        // });
+
         const role = req.body.roles;
         if (role) {
             const roles = await findRole(role);
@@ -73,16 +64,14 @@ export async function signin(req, res) {
         const token = jwt.sign({ id: user.id }, config.secret, {
             expiresIn: 300,
         });
-        const authorities = [];
+
         const roles = await user.getRoles();
-        for (let i = 0; i < roles.length; i += 1) {
-            authorities.push(`${roles[i].name.toLowerCase()}`);
-        }
+
         return res.status(200).send({
             id: user.id,
             username: user.username,
             email: user.email,
-            roles: authorities,
+            roles: roles[0].name,
             accessToken: token,
         });
     } catch (error) {
@@ -92,28 +81,24 @@ export async function signin(req, res) {
 
 export async function changePassword(req, res) {
     try {
-        const { id } = req.params;
-        if (req.userId === +id) { // parse id -> number
-            const { oldPassword, newPassword } = req.body;
-            const currenUser = await db.User.findByPk(id);
-            if (!isValidPassword(oldPassword, currenUser.password)) {
-                return res.json(
-                    respondWithError(405, 'Old password is not correct', {}),
-                );
-            }
-            await db.User.update(
-                {
-                    password: hashPassword(newPassword),
-                },
-                {
-                    where: {
-                        id,
-                    },
-                },
+        const { oldPassword, newPassword } = req.body;
+        const currenUser = await db.User.findByPk(req.userId);
+        if (!isValidPassword(oldPassword, currenUser.password)) {
+            return res.json(
+                respondWithError(405, 'Old password is not correct', {}),
             );
-            return res.json(respondSuccess());
         }
-        return res.json(respondWithError(405, 'User invalid', {}));
+        await db.User.update(
+            {
+                password: hashPassword(newPassword),
+            },
+            {
+                where: {
+                    id: req.userId,
+                },
+            },
+        );
+        return res.json(respondSuccess());
     } catch (error) {
         return logSystemError(res, error, 'authController - changePassword');
     }
