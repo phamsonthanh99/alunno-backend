@@ -2,6 +2,7 @@ import { Op } from 'sequelize';
 import { logger } from './logger';
 import { getUserDetail } from '../components/user/userService';
 import { SendEmail } from './constants';
+import { templateTeacherAssignedManageSubject } from './templateSendEmail';
 
 require('dotenv').config();
 const nodeMailer = require('nodemailer');
@@ -53,11 +54,13 @@ export async function sendEmail(mailData) {
 
     const manager = await getUserDetail(mailData.managerId);
     const teacher = await getUserDetail(mailData.receiverId);
+
+    const template = templateTeacherAssignedManageSubject(mailData.subjectName, manager.fullName, mailData.content);
     const options = {
         from: adminEmail,
         to: teacher.email,
         subject: mailData.title,
-        html: `Admin: <b>${manager.fullName}</b> ${mailData.body}`,
+        html: template,
     };
     if (process.env.IS_SEND_EMAIL === SendEmail.SEND_EMAIL) {
         return transporter.sendMail(options);

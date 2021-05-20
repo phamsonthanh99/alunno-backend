@@ -44,8 +44,9 @@ export async function createSubject(req, res) {
         const mailData = {
             managerId: req.userId,
             receiverId: subject.userId,
-            title: 'Create a subject for you to manage',
-            body: `has assigned you manage, subject: <b>${subject.name}</b>`,
+            title: 'Report: Create a subject for you to manage',
+            subjectName: subject.name,
+            content: 'has assigned you manage',
         };
         await sendEmail(mailData);
         return res.json(respondSuccess(subject));
@@ -93,16 +94,18 @@ export async function update(req, res) {
             const mailDataForOldTeacher = {
                 managerId: req.userId,
                 receiverId: currentTeacherId,
-                title: 'Subjects assigned to others',
-                body: `has assigned your subject to others, subject: <b>${rawData.name}</b>`,
+                title: 'Report: Subjects assigned to others',
+                subjectName: currentSubject.name,
+                content: 'has assigned your subject to others',
             };
             await sendEmail(mailDataForOldTeacher);
 
             const mailDataForNewTeacher = {
                 managerId: req.userId,
                 receiverId: rawData.userId,
-                title: 'Subjects assigned to you',
-                body: `has assigned you manage, subject: <b>${rawData.name}</b>`,
+                title: 'Report: Subjects assigned to you',
+                subjectName: rawData.name,
+                content: 'has assigned you manage',
             };
             await sendEmail(mailDataForNewTeacher);
         }
@@ -131,8 +134,9 @@ export async function deleteSubject(req, res) {
         const mailData = {
             managerId: req.userId,
             receiverId: subject.userId,
-            title: 'Delete the subject you are managing',
-            body: `deleted the subject you are administering, subject: <b>${subject.name}</b>`,
+            title: 'Report: Delete the subject you are managing',
+            subjectName: subject.name,
+            content: 'deleted the subject you are administering',
         };
         await sendEmail(mailData);
 
