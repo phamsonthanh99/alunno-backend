@@ -8,6 +8,7 @@ const validSchema = Joi.object().keys({
     phone: Joi.string().max(255).allow(null).allow(''),
     age: Joi.string().max(255).allow(null).allow(''),
     address: Joi.string().max(255).allow(null).allow(''),
+    email: Joi.string().max(255).allow(null).allow(''),
 });
 const validQuery = Joi.object().keys({
     limit: Joi.number().integer().min(1).allow(null),

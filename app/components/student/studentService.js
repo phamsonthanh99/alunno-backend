@@ -22,9 +22,14 @@ const studentInclude = [
         attributes: ['id', 'name'],
     },
     {
-        model: db.Subject,
-        as: 'subject',
-        attributes: ['id', 'name'],
+        model: db.ExamScore,
+        as: 'scoreSubject',
+        attributes: ['scoreMulOne', 'scoreMulTwo', 'scoreMulThree'],
+        include: {
+            model: db.Subject,
+            as: 'subject',
+            attributes: ['id', 'name', 'status'],
+        },
     },
 ];
 export async function fetchStudentList(filter) {

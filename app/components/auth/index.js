@@ -30,6 +30,6 @@ module.exports = (app) => {
 
     router.post('/signin', signinValidator, signin);
 
-    router.post('/change-password/:id', verifyToken, changePasswordValidator, changePassword);
+    router.post('/change-password/', verifyToken, changePasswordValidator, changePassword);
     app.use('/api/auth', router);
 };

@@ -104,6 +104,9 @@ export async function update(req, res) {
 export async function deleteUser(req, res) {
     try {
         const { id } = req.params;
+        if (req.userId === +id) {
+            return res.json(respondWithError(407, 'do not delete yourself'));
+        }
         const isIdExist = await checkIfValueExist(db.User, id);
         if (!isIdExist) {
             return res.json(respondWithError(407, 'User does not exist'));

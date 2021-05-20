@@ -26,6 +26,7 @@ db.Role = require('./role.model')(sequelize, Sequelize);
 db.Class = require('./class.model')(sequelize, Sequelize);
 db.Subject = require('./subject.model')(sequelize, Sequelize);
 db.Student = require('./student.model')(sequelize, Sequelize);
+db.ExamScore = require('./examScore.model')(sequelize, Sequelize);
 
 // Role and User (Many-To-Many)
 db.Role.belongsToMany(db.User, {
@@ -53,18 +54,6 @@ db.Class.hasMany(db.Student, {
     sourceKey: 'id',
 });
 
-// Subject and Student (One-to-Many)
-db.Student.belongsTo(db.Subject, {
-    as: 'subject',
-    foreignKey: 'subjectId',
-    targetKey: 'id',
-});
-db.Subject.hasMany(db.Student, {
-    as: 'student',
-    foreignKey: 'subjectId',
-    sourceKey: 'id',
-});
-
 // User and Subject (One-To-Many)
 db.Subject.belongsTo(db.User, {
     as: 'teacher',
@@ -75,5 +64,27 @@ db.User.hasMany(db.Subject, {
     as: 'subject',
     foreignKey: 'userId',
     sourceKey: 'id',
+});
+
+// associate student & subject
+db.Student.hasMany(db.ExamScore, {
+    as: 'scoreSubject',
+    foreignKey: 'studentId',
+    sourceKey: 'id',
+});
+db.ExamScore.belongsTo(db.Student, {
+    as: 'student',
+    foreignKey: 'studentId',
+    targetKey: 'id',
+});
+db.Subject.hasMany(db.ExamScore, {
+    as: 'scoreStudent',
+    foreignKey: 'subjectId',
+    sourceKey: 'id',
+});
+db.ExamScore.belongsTo(db.Subject, {
+    as: 'subject',
+    foreignKey: 'subjectId',
+    targetKey: 'id',
 });
 module.exports = db;
